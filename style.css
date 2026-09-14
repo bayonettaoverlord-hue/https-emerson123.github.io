@@ -1,0 +1,154 @@
+/* =========================================
+   NUTRIDATA
+   CSS PERSONALIZADO
+   ========================================= */
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* =========================================
+   HEADER COM EFEITO DE VIDRO
+   ========================================= */
+
+.glass-header {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.dark .glass-header {
+    background: rgba(11, 15, 23, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+/* =========================================
+   SCROLLBAR
+   ========================================= */
+
+.custom-scrollbar::-webkit-scrollbar {
+    height: 6px;
+    width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 9999px;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #334155;
+}
+
+/* =========================================
+   SELEÇÃO DE TEXTO
+   ========================================= */
+
+::selection {
+    background: rgba(16, 185, 129, 0.25);
+}
+
+/* =========================================
+   IMAGENS
+   ========================================= */
+
+img {
+    max-width: 100%;
+}
+
+/* =========================================
+   TRANSIÇÕES
+   ========================================= */
+
+button,
+a,
+img {
+    transition-property:
+        color,
+        background-color,
+        border-color,
+        transform,
+        box-shadow,
+        opacity;
+    transition-duration: 200ms;
+}
+
+/* =========================================
+   ACESSIBILIDADE
+   ========================================= */
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+    outline: 2px solid #10b981;
+    outline-offset: 2px;
+}
+
+/* =========================================
+   ANIMAÇÃO SUAVE DOS CARDS
+   ========================================= */
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#foods-grid article {
+    animation: fadeUp 0.35s ease both;
+}
+
+/* =========================================
+   ANIMAÇÃO DO DROPDOWN
+   ========================================= */
+
+#search-results-dropdown:not(.hidden) {
+    animation: dropdownIn 0.18s ease-out;
+}
+
+@keyframes dropdownIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================================
+   INPUT
+   ========================================= */
+
+input::placeholder {
+    opacity: 0.75;
+}
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 640px) {
+
+    body {
+        overflow-x: hidden;
+    }
+
+    #foods-grid article {
+        animation-duration: 0.25s;
+    }
+
+}
