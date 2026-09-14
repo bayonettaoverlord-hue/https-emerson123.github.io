@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriData — Enciclopédia Inteligente de Alimentos</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        emerald: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            900: '#064e3b',
+                        },
+                        darkBg: '#0b0f17',
+                        darkCard: '#151c28',
+                        darkBorder: '#232d3f'
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .glass-header {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+        }
+        .dark .glass-header {
+            background: rgba(11, 15, 23, 0.85);
+            backdrop-filter: blur(12px);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 6px;
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 9999px;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #334155;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 dark:bg-darkBg dark:text-slate-100 antialiased transition-colors duration-300 min-h-screen flex flex-col justify-between">
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="sticky top-0 z-50 glass-header border-b border-slate-200/80 dark:border-darkBorder transition-colors">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#" onclick="showHome()" class="flex items-center gap-2.5 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-white shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform">
+                    <i data-lucide="leaf" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <span class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-slate-900 via-slate-800 to-emerald-600 dark:from-white dark:via-slate-200 dark:to-emerald-400 bg-clip-text text-transparent">NutriData</span>
+                    <span class="block text-[10px] font-semibold tracking-wider text-emerald-600 dark:text-emerald-400 uppercase -mt-1">Enciclopédia de Alimentos</span>
+                </div>
+            </a>
+
+            <!-- Right Nav Actions -->
+            <div class="flex items-center gap-3 sm:gap-4">
+                <button onclick="toggleDarkMode()" class="p-2.5 rounded-xl border border-slate-200 dark:border-darkBorder bg-white dark:bg-darkCard text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all shadow-sm" aria-label="Alternar tema">
+                    <i data-lucide="sun" class="w-5 h-5 hidden dark:block"></i>
+                    <i data-lucide="moon" class="w-5 h-5 block dark:hidden"></i>
+                </button>
+
+                <a href="#metodologia" class="hidden sm:flex items-center gap-2 text-xs font-semibold px-4 py-2.5 rounded-xl border border-slate-200 dark:border-darkBorder bg-white dark:bg-darkCard text-slate-700 dark:text-slate-300 hover:border-emerald-500 transition-all shadow-sm">
+                    <i data-lucide="shield-check" class="w-4 h-4 text-emerald-500"></i>
+                    Ciência & Fontes
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT AREA -->
+    <main id="main-content" class="flex-grow">
+        <!-- VISTA DA PÁGINA INICIAL (Home) -->
+        <div id="view-home">
+            <!-- HERO SECTION -->
+            <section class="relative pt-12 pb-16 md:pt-20 md:pb-24 overflow-hidden">
+                <div class="absolute inset-0 -z-10 bg-[radial-gradient(45rem_50rem_at_top,theme(colors.emerald.100),transparent)] dark:bg-[radial-gradient(45rem_50rem_at_top,rgba(16,185,129,0.1),transparent)] opacity-60"></div>
+                
+                <div class="max-w-5xl mx-auto px-4 sm:px-6 text-center">
+                    <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800/50 text-emerald-700 dark:text-emerald-300 text-xs font-semibold mb-6">
+                        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Base de dados nutricional baseada em evidências
+                    </span>
+
+                    <h1 class="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white max-w-4xl mx-auto leading-tight">
+                        Descubra tudo sobre o que você <span class="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">come.</span>
+                    </h1>
+
+                    <p class="mt-4 text-base sm:text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto font-normal">
+                        Pesquise nutrientes, benefícios científicos, mitos, conservação, segurança alimentar e formas ideais de preparo.
+                    </p>
+
+                    <!-- BUSCA PRINCIPAL -->
+                    <div class="mt-8 sm:mt-10 max-w-2xl mx-auto relative group">
+                        <div class="relative flex items-center shadow-xl shadow-slate-200/50 dark:shadow-none rounded-2xl bg-white dark:bg-darkCard border border-slate-200 dark:border-darkBorder focus-within:border-emerald-500 dark:focus-within:border-emerald-500 transition-all p-2">
+                            <i data-lucide="search" class="w-6 h-6 text-slate-400 ml-3 shrink-0"></i>
+                            <input type="text" id="home-search-input" oninput="handleSearch(this.value)" placeholder="Pesquise por alimento (ex: Batata-doce, Ovo, Aveia)..." class="w-full bg-transparent border-0 px-3 py-3 text-sm sm:text-base text-slate-900 dark:text-white focus:ring-0 focus:outline-none placeholder-slate-400 font-medium">
+                            <button class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-5 py-3 rounded-xl text-sm transition-all hidden sm:block">
+                                Pesquisar
+                            </button>
+                        </div>
+
+                        <!-- Dropdown de Sugestões / Busca -->
+                        <div id="search-results-dropdown" class="absolute left-0 right-0 top-full mt-2 bg-white dark:bg-darkCard border border-slate-200 dark:border-darkBorder rounded-2xl shadow-2xl overflow-hidden z-30 hidden text-left max-h-80 overflow-y-auto custom-scrollbar">
+                            <!-- Injetado via JS -->
+                        </div>
+                    </div>
+
+                    <!-- Populares / Pesquisados Recentemente -->
+                    <div class="mt-6 flex flex-wrap items-center justify-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+                        <span class="font-semibold text-slate-700 dark:text-slate-300">Populares:</span>
+                        <button onclick="loadFood('batata-doce')" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 hover:text-emerald-600 transition-colors">Batata-doce</button>
+                        <button onclick="loadFood('ovo-de-galinha')" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 hover:text-emerald-600 transition-colors">Ovo de Galinha</button>
+                        <button onclick="loadFood('abacate')" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 hover:text-emerald-600 transition-colors">Abacate</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CATEGORIAS -->
+            <section class="py-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-xl font-bold text-slate-900 dark:text-white">Categorias de Alimentos</h2>
+                    <span class="text-xs text-slate-500 dark:text-slate-400">Navegue por grupo</span>
+                </div>
+                
+                <div id="categories-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+                    <!-- Gerado via JS -->
+                </div>
+            </section>
+
+            <!-- FILTROS NUTRICIONAIS INTELIGENTES -->
+            <section class="py-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="bg-emerald-900/5 dark:bg-darkCard border border-emerald-100 dark:border-darkBorder rounded-3xl p-6 sm:p-8">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-900 dark:text-white">Filtros Inteligentes</h2>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Encontre alimentos de acordo com seus objetivos nutricionais</p>
+                        </div>
+                        
+                        <!-- Pills de filtro -->
+                        <div class="flex flex-wrap gap-2" id="smart-filters">
+                            <button onclick="filterFoods('all')" class="filter-btn active px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all bg-emerald-600 text-white">Todos</button>
+                            <button onclick="filterFoods('high-protein')" class="filter-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-emerald-500 transition-all">Mais Proteínas</button>
+                            <button onclick="filterFoods('high-fiber')" class="filter-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-emerald-500 transition-all">Mais Fibras</button>
+                            <button onclick="filterFoods('satiety')" class="filter-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-emerald-500 transition-all">Maior Saciedade</button>
+                            <button onclick="filterFoods('low-calorie')" class="filter-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-emerald-500 transition-all">Menos Calóricos</button>
+                        </div>
+                    </div>
+
+                    <!-- LISTA DE CARDS DE ALIMENTOS -->
+                    <div id="foods-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Renderizado via JS -->
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- VISTA DA PÁGINA INDIVIDUAL DO ALIMENTO (Detalhe) -->
+        <div id="view-food-detail" class="hidden pb-20">
+            <!-- Renderizado dinamicamente via JS -->
+        </div>
+    </main>
+
+    <!-- FOOTER / CIÊNCIA & SEGURANÇA -->
+    <footer id="metodologia" class="bg-white dark:bg-darkCard border-t border-slate-200 dark:border-darkBorder py-12 transition-colors">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center gap-2 mb-3">
+                        <div class="w-8 h-8 rounded-lg bg-emerald-600 flex items-center justify-center text-white">
+                            <i data-lucide="leaf" class="w-4 h-4"></i>
+                        </div>
+                        <span class="text-lg font-bold text-slate-900 dark:text-white">NutriData</span>
+                    </div>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                        A NutriData é uma plataforma educacional independente focada na síntese visual e científica de informações sobre nutrição, botânica e segurança alimentar.
+                    </p>
+                </div>
+
+                <div>
+                    <h3 class="text-sm font-bold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
+                        <i data-lucide="database" class="w-4 h-4 text-emerald-500"></i> Fontes Oficiais & Metodologia
+                    </h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                        Nossos dados nutricionais e de segurança provêm das bases de dados: <strong>USDA FoodData Central</strong>, Tabela Brasileira de Composição de Alimentos (<strong>TACO/TBCA</strong>), Organização das Nações Unidas para Alimentação e Agricultura (<strong>FAO</strong>), <strong>Anvisa</strong> e <strong>Ministério da Saúde</strong>.
+                    </p>
+                </div>
+
+                <div>
+                    <h3 class="text-sm font-bold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
+                        <i data-lucide="alert-circle" class="w-4 h-4 text-amber-500"></i> Aviso Médico Isenção
+                    </h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                        As informações contidas neste site possuem caráter estritamente educativo e informativo. Elas <strong>não substituem</strong> o aconselhamento, diagnóstico ou tratamento médico e nutricional individualizado por profissionais habilitados.
+                    </p>
+                </div>
+            </div>
+
+            <div class="pt-8 border-t border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-4">
+                <p>© 2026 NutriData Enciclopédia Inteligente. Todos os direitos reservados.</p>
+                <p>Última atualização da base científica: Março de 2026</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT DA APLICAÇÃO E BANCO DE DADOS -->
+    <script>
+        // BANCO DE DADOS EXAUSTIVO DE ALIMENTOS
+        const FOODS_DATABASE = [
+            {
+                id: 'batata-doce',
+                name: 'Batata-doce',
+                scientificName: 'Ipomoea batatas',
+                category: 'Legumes',
+                categorySlug: 'legumes',
+                origin: 'América Central e do Sul',
+                image: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=1000&q=80',
+                summary: 'Tuberculo nutritivo de sabor adocicado, rico em carboidratos complexos de digestão lenta e betacaroteno.',
+                features: ['Baixo Índice Glicêmico', 'Rica em Antioxidantes', 'Fonte de Fibras Solúveis'],
+                nutrition: {
+                    calories: 86,
+                    proteins: 1.6,
+                    carbs: 20.1,
+                    totalSugars: 4.2,
+                    addedSugars: 0,
+                    fats: 0.1,
+                    satFats: 0.02,
+                    fiber: 3.0,
+                    sodium: 55,
+                    potassium: 337,
+                    calcium: 30,
+                    iron: 0.6,
+                    magnesium: 25,
+                    phosphorus: 47,
+                    zinc: 0.3,
+                    vitamins: [
+                        { name: 'Vitamina A (Betacaroteno)', amount: '14187 IU', dv: '283%' },
+                        { name: 'Vitamina C', amount: '2.4 mg', dv: '4%' },
+                        { name: 'Vitamina B6', amount: '0.2 mg', dv: '15%' }
+                    ]
+                },
+                healthBenefits: [
+                    { title: 'Saciedade prolongada', text: 'Devido ao teor de fibras e amido resistente, retarda o esvaziamento gástrico.' },
+                    { title: 'Controle glicêmico', text: 'Possui menor impacto nas picos de glicemia em comparação à batata-inglesa.' },
+                    { title: 'Saúde ocular e imunológica', text: 'A altíssima concentração de provitamina A protege os olhos e apoia as defesas do organismo.' }
+                ],
+                weightLossInfo: {
+                    highCalorie: false,
+                    helpsSatiety: true,
+                    suitableForDiet: true,
+                    increasesEnergyExpenditure: false,
+                    boostsMetabolism: false,
+                    mythVsFact: 'Embora seja excelente para fornecer energia sustentada, a batata-doce não "queima gordura" por si só. O emagrecimento depende do déficit calórico global.'
+                },
+                whoCanConsume: {
+                    general: 'Excelente para toda a população saudável e praticantes de atividade física.',
+                    diabetics: 'Pode ser consumida com moderação, preferencialmente cozida com casca para manter o índice glicêmico controlado.',
+                    allergies: 'Raríssimos relatos de alergia ou intolerância.'
+                },
+                caution: {
+                    level: 'low', // low, moderate, high
+                    title: 'Atenção aos Brotos e Oxalatos',
+                    details: 'Pessoas com histórico de cálculos renais de oxalato de cálcio devem moderar o consumo. Batatas-doces com brotos excessivos ou textura extremamente mole devem ser descartadas.'
+                },
+                foodSafety: {
+                    freshStatus: 'Firme ao toque, pele uniforme, sem rachaduras profundas ou pontos moles.',
+                    spoiledStatus: 'Textura enrugada/mole, cheiro azedo, presença de mofo preto ou brotação intensa.',
+                    storage: 'Conservar em local fresco, seco e arejado (fora da geladeira). Geladeira altera o amido e o sabor.',
+                    greenPotatoRisk: 'Na batata-doce, brotos não geram tanta solanina quanto na batata-inglesa, mas tubérculos velhos acumulam fungos e perdem valor nutricional.'
+                },
+                productionTimeline: [
+                    { step: 'Plantio', desc: 'Ramas plantadas em solo arenoso e bem drenado.' },
+                    { step: 'Crescimento', desc: 'Desenvolvimento subterrâneo dos tubérculos (3 a 5 meses).' },
+                    { step: 'Colheita', desc: 'Retirada manual ou mecanizada antes de chuvas intensas.' },
+                    { step: 'Distribuição', desc: 'Cura simples ao ar e transporte em caixas arejadas.' }
+                ],
+                identification: {
+                    appearance: 'Formato alongado a fusiforme.',
+                    color: 'Pele purpúrea, alaranjada ou amarelada; polpa amarela, alaranjada ou roxa.',
+                    texture: 'Firme e densa quando fresca.'
+                },
+                cookingComparison: [
+                    { mode: 'Cozida com casca', note: 'Mantém menor índice glicêmico e preserva fibras.' },
+                    { mode: 'Assada', note: 'Concentra os açúcares naturais e eleva levemente a carga glicêmica.' },
+                    { mode: 'Frita', note: 'Aumenta significativamente as calorias e gorduras saturadas.' }
+                ],
+                myths: [
+                    {
+                        statement: 'Batata-doce emagrece por si só.',
+                        verdict: 'MITO',
+                        explanation: 'Nenhum alimento promove emagrecimento isoladamente. A batata-doce ajuda na saciedade, facilitando a adesão a uma dieta de déficit calórico.'
+                    },
+                    {
+                        statement: 'Tem carboidratos de absorção mais lenta que a batata-comum.',
+                        verdict: 'VERDADE',
+                        explanation: 'Contém mais fibras e estrutura amilácea que lentificam a conversão em glicose no sangue.'
+                    }
+                ],
+                tags: ['satiety', 'low-calorie']
+            },
+            {
+                id: 'ovo-de-galinha',
+                name: 'Ovo de Galinha (Inteiro)',
+                scientificName: 'Gallus gallus domesticus',
+                category: 'Ovos',
+                categorySlug: 'ovos',
+                origin: 'Sudoeste Asiático (Domesticação)',
+                image: 'https://images.unsplash.com/photo-1506976785307-8732e854ad03?auto=format&fit=crop&w=1000&q=80',
+                summary: 'Proteína de altíssimo valor biológico, rico em colina, luteína e vitaminas do complexo B.',
+                features: ['Proteína Completa', 'Rico em Colina', 'Excelente para Músculos'],
+                nutrition: {
+                    calories: 143,
+                    proteins: 12.6,
+                    carbs: 0.7,
+                    totalSugars: 0.4,
+                    addedSugars: 0,
+                    fats: 9.5,
+                    satFats: 3.1,
+                    fiber: 0.0,
+                    sodium: 142,
+                    potassium: 138,
+                    calcium: 56,
+                    iron: 1.75,
+                    magnesium: 12,
+                    phosphorus: 198,
+                    zinc: 1.3,
+                    vitamins: [
+                        { name: 'Vitamina B12', amount: '0.89 mcg', dv: '37%' },
+                        { name: 'Vitamina D', amount: '82 IU', dv: '14%' },
+                        { name: 'Vitamina A', amount: '540 IU', dv: '11%' }
+                    ]
+                },
+                healthBenefits: [
+                    { title: 'Manutenção Muscular', text: 'Possui aminoácidos essenciais com alta digestibilidade e aproveitamento corporal.' },
+                    { title: 'Saúde Cerebral', text: 'A colina na gema é fundamental para a síntese de neurotransmissores e memória.' },
+                    { title: 'Proteção Ocular', text: 'Os antioxidantes luteína e zeaxantina reduzem riscos de degeneração macular.' }
+                ],
+                weightLossInfo: {
+                    highCalorie: false,
+                    helpsSatiety: true,
+                    suitableForDiet: true,
+                    increasesEnergyExpenditure: false,
+                    boostsMetabolism: false,
+                    mythVsFact: 'O consumo de ovos no café da manhã comprovadamente aumenta a saciedade ao longo do dia, reduzindo o consumo de calorias nas refeições seguintes.'
+                },
+                whoCanConsume: {
+                    general: 'Alimento extremamente denso e adequado para quase todas as idades.',
+                    diabetics: 'Excelente opção por não elevar a glicemia.',
+                    allergies: 'A albufera (clara) é um dos alérgenos alimentares mais comuns em crianças.'
+                },
+                caution: {
+                    level: 'moderate',
+                    title: 'Risco de Salmonella',
+                    details: 'Ovos crus ou mal cozidos carregam risco de contaminação por Salmonella. Pessoas idosas, gestantes e imunodeprimidas devem consumir apenas ovos totalmente cozidos.'
+                },
+                foodSafety: {
+                    freshStatus: 'Casca limpa, sem rachaduras. Ao submergir em água, o ovo fresco afunda no fundo do copo.',
+                    spoiledStatus: 'Se flutuar totalmente na água, o ovo está velho/estragado. Odor forte e característico ao abrir.',
+                    storage: 'Manter sob refrigeração na prateleira interna (evitar a porta da geladeira para fugir da variação térmicas).',
+                    greenPotatoRisk: 'N/A'
+                },
+                productionTimeline: [
+                    { step: 'Postura', desc: 'Galinhas poedeiras em ambiente controlado ou caipira.' },
+                    { step: 'Higienização e Classificação', desc: 'Inspeção contra trincas e lavagem industrial.' },
+                    { step: 'Embalagem', desc: 'Acondicionamento em caixas térmicas/de papelão.' },
+                    { step: 'Consumo', desc: 'Armazenamento refrigerado na cadeia de suprimentos.' }
+                ],
+                identification: {
+                    appearance: 'Formato ovoidal com casca porosa.',
+                    color: 'Branca ou castanha (depende da raça da galinha, não altera o valor nutricional).',
+                    texture: 'Gema firme e elevada, clara viscosa nos frescos.'
+                },
+                cookingComparison: [
+                    { mode: 'Cozido', note: 'Forma mais magra e segura, preserva nutrientes sem adicionar gordura.' },
+                    { mode: 'Pochê / Mexido', note: 'Excelente opção, requer pouca ou nenhuma gordura.' },
+                    { mode: 'Frito em imersão', note: 'Pode dobrar a quantidade de calorias devido ao óleo retido.' }
+                ],
+                myths: [
+                    {
+                        statement: 'Comer ovo aumenta o colesterol no sangue e faz mal ao coração.',
+                        verdict: 'MITO',
+                        explanation: 'Estudos científicos modernos mostram que o colesterol alimentar do ovo tem impacto mínimo sobre o colesterol sanguíneo na maioria das pessoas.'
+                    },
+                    {
+                        statement: 'Ovo de casca vermelha/caipira é mais nutritivo que o branco.',
+                        verdict: 'MITO',
+                        explanation: 'A cor da casca é definida apenas pela raça da galinha. O valor nutricional depende da alimentação da ave, não da cor da casca.'
+                    }
+                ],
+                tags: ['high-protein', 'satiety']
+            },
+            {
+                id: 'abacate',
+                name: 'Abacate',
+                scientificName: 'Persea americana',
+                category: 'Frutas',
+                categorySlug: 'frutas',
+                origin: 'México e América Central',
+                image: 'https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?auto=format&fit=crop&w=1000&q=80',
+                summary: 'Fruta única rica em gorduras monoinsaturadas (ácido oleico), potássio, fibras e antioxidantes.',
+                features: ['Gorduras Boas (Monoinsaturadas)', 'Muito Rico em Potássio', 'Baixo Carboidrato Líquido'],
+                nutrition: {
+                    calories: 160,
+                    proteins: 2.0,
+                    carbs: 8.5,
+                    totalSugars: 0.7,
+                    addedSugars: 0,
+                    fats: 14.7,
+                    satFats: 2.1,
+                    fiber: 6.7,
+                    sodium: 7,
+                    potassium: 485,
+                    calcium: 12,
+                    iron: 0.55,
+                    magnesium: 29,
+                    phosphorus: 52,
+                    zinc: 0.6,
+                    vitamins: [
+                        { name: 'Vitamina E', amount: '2.07 mg', dv: '14%' },
+                        { name: 'Vitamina K', amount: '21 mcg', dv: '18%' },
+                        { name: 'Folato (B9)', amount: '81 mcg', dv: '20%' }
+                    ]
+                },
+                healthBenefits: [
+                    { title: 'Saúde Cardiovascular', text: 'O ácido oleico auxilia na manutenção de níveis saudáveis de colesterol HDL e LDL.' },
+                    { title: 'Redução da Pressão Arterial', text: 'Possui mais potássio que a banana, ajudando a equilibrar os níveis de sódio no organismo.' },
+                    { title: 'Absorção de Nutrientes', text: 'A gordura do abacate ajuda a absorver vitaminas lipossolúveis (A, D, E, K) de outros alimentos da refeição.' }
+                ],
+                weightLossInfo: {
+                    highCalorie: true,
+                    helpsSatiety: true,
+                    suitableForDiet: true,
+                    increasesEnergyExpenditure: false,
+                    boostsMetabolism: false,
+                    mythVsFact: 'Apesar de ser calórico devido às gorduras, o abacate promove densa saciedade. A chave para diets de emagrecimento é o controle da porção.'
+                },
+                whoCanConsume: {
+                    general: 'Ideal para praticantes de esportes, dietas low-carb ou alimentação equilibrada.',
+                    diabetics: 'Excelente por ter baixíssimo impacto na glicemia e melhorar a sensibilidade à insulina.',
+                    allergies: 'Pessoas com alergia ao látex podem ter reatividade cruzada com o abacate (Síndrome Látex-Fruta).'
+                },
+                caution: {
+                    level: 'low',
+                    title: 'Densidade Calórica',
+                    details: 'Por ser denso em calorias de gordura, o consumo em grandes quantidades pode ultrapassar metas calóricas diárias.'
+                },
+                foodSafety: {
+                    freshStatus: 'Cede levemente a uma pressão suave na casca sem ficar marcado. Pedúnculo solta fácil e revela cor verde clara.',
+                    spoiledStatus: 'Polpa escurecida/marrom com fibras pretas espessas, cheiro rançoso ou azedo.',
+                    storage: 'Se verde, manter na fruteira. Quando maduro, guarde na geladeira por até 3 dias. Para evitar a oxidação (escurecimento) após cortar, pingue gotas de limão.',
+                    greenPotatoRisk: 'N/A'
+                },
+                productionTimeline: [
+                    { step: 'Cultivo', desc: 'Árvores frutíferas em climas tropicais e subtropicais.' },
+                    { step: 'Colheita', desc: 'Fruta colhida ainda firme/fria.' },
+                    { step: 'Maturação', desc: 'O amadurecimento ocorre após a remoção da árvore.' }
+                ],
+                identification: {
+                    appearance: 'Formato de pera ou arredondado com casca rugosa.',
+                    color: 'Verde-escuro a roxo/preto (variedade Hass/Avocado).',
+                    texture: 'Cremosa e amanteigada quando maduro.'
+                },
+                cookingComparison: [
+                    { mode: 'In natura / Guacamole', note: 'Preserva todas as gorduras saudáveis e a sensível Vitamina E.' },
+                    { mode: 'Aquecido / Assado', note: 'O aquecimento excessivo pode conferir amargor ao abacate.' }
+                ],
+                myths: [
+                    {
+                        statement: 'Abacate engorda e deve ser eliminado da dieta.',
+                        verdict: 'MITO',
+                        explanation: 'Nenhum alimento engorda por si só. Suas gorduras são benéficas para o metabolismo e coração se consumidas em porções adequadas.'
+                    }
+                ],
+                tags: ['high-fiber', 'satiety']
+            }
+        ];
+
+        // CATEGORIAS
+        const CATEGORIES = [
+            { name: 'Frutas', slug: 'frutas', icon: 'apple' },
+            { name: 'Verduras', slug: 'verduras', icon: 'salad' },
+            { name: 'Legumes', slug: 'legumes', icon: 'carrot' },
+            { name: 'Cereais', slug: 'cereais', icon: 'wheat' },
+            { name: 'Carnes', slug: 'carnes', icon: 'drumstick' },
+            { name: 'Peixes', slug: 'peixes', icon: 'fish' },
+            { name: 'Ovos', slug: 'ovos', icon: 'egg' },
+            { name: 'Laticínios', slug: 'laticinios', icon: 'milk' },
+            { name: 'Oleaginosas', slug: 'oleaginosas', icon: 'nut' },
+            { name: 'Leguminosas', slug: 'leguminosas', icon: 'bean' },
+            { name: 'Industrializados', slug: 'industrializados', icon: 'package' },
+            { name: 'Bebidas', slug: 'bebidas', icon: 'coffee' }
+        ];
+
+        // ESTADO DA APLICAÇÃO
+        let activeFilter = 'all';
+        let currentChartInstance = null;
+
+        // INICIALIZAÇÃO
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCategories();
+            renderFoodsGrid(FOODS_DATABASE);
+            lucide.createIcons();
+            initTheme();
+        });
+
+        // DARK MODE CONTROLLER
+        function initTheme() {
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        }
+
+        function toggleDarkMode() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.theme = 'light';
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.theme = 'dark';
+            }
+        }
+
+        // RENDERIZAR CATEGORIAS
+        function renderCategories() {
+            const container = document.getElementById('categories-grid');
+            container.innerHTML = CATEGORIES.map(cat => `
+                <button onclick="filterByCategory('${cat.slug}')" class="flex flex-col items-center justify-center p-4 rounded-2xl bg-white dark:bg-darkCard border border-slate-200/80 dark:border-darkBorder hover:border-emerald-500 hover:shadow-md transition-all group">
+                    <div class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 group-hover:bg-emerald-50 group-hover:text-emerald-600 dark:group-hover:bg-emerald-950/50 dark:group-hover:text-emerald-400 flex items-center justify-center mb-2 transition-colors">
+                        <i data-lucide="${getCategoryIcon(cat.slug)}" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-xs font-semibold text-slate-700 dark:text-slate-300 group-hover:text-emerald-600 transition-colors">${cat.name}</span>
+                </button>
+            `).join('');
+        }
+
+        function getCategoryIcon(slug) {
+            const map = {
+                frutas: 'apple', verduras: 'salad', legumes: 'carrot', cereais: 'wheat',
+                carnes: 'drumstick', peixes: 'fish', ovos: 'egg', laticinios: 'milk',
+                oleaginosas: 'nut', leguminosas: 'bean', industrializados: 'package', bebidas: 'coffee'
+            };
+            return map[slug] || 'utensils';
+        }
+
+        // RENDERIZAR GRID DE CARDS
+        function renderFoodsGrid(foods) {
+            const container = document.getElementById('foods-grid');
+            if (foods.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full py-12 text-center">
+                        <i data-lucide="search-x" class="w-12 h-12 text-slate-300 dark:text-slate-600 mx-auto mb-3"></i>
+                        <p class="text-slate-500 dark:text-slate-400 font-medium text-sm">Nenhum alimento encontrado para os critérios selecionados.</p>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            container.innerHTML = foods.map(food => `
+                <article class="bg-white dark:bg-darkCard border border-slate-200/80 dark:border-darkBorder rounded-3xl overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col group">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="${food.image}" alt="${food.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute top-3 left-3 bg-slate-900/70 backdrop-blur-md text-white text-[11px] font-semibold px-3 py-1 rounded-full">
+                            ${food.category}
+                        </div>
+                    </div>
+                    
+                    <div class="p-6 flex-grow flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-baseline justify-between gap-2 mb-1">
+                                <h3 class="text-lg font-bold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">${food.name}</h3>
+                                <span class="text-xs text-slate-400 italic">${food.scientificName}</span>
+                            </div>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 line-clamp-2 mb-4 leading-relaxed">${food.summary}</p>
+                            
+                            <!-- Mini badges nutricionais -->
+                            <div class="grid grid-cols-3 gap-2 py-3 px-3 rounded-2xl bg-slate-50 dark:bg-slate-800/50 mb-4 text-center">
+                                <div>
+                                    <span class="block text-[10px] text-slate-400 uppercase font-semibold">Calorias</span>
+                                    <span class="text-xs font-bold text-slate-800 dark:text-slate-200">${food.nutrition.calories} kcal</span>
+                                </div>
+                                <div>
+                                    <span class="block text-[10px] text-slate-400 uppercase font-semibold">Proteínas</span>
+                                    <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400">${food.nutrition.proteins}g</span>
+                                </div>
+                                <div>
+                                    <span class="block text-[10px] text-slate-400 uppercase font-semibold">Fibras</span>
+                                    <span class="text-xs font-bold text-slate-800 dark:text-slate-200">${food.nutrition.fiber}g</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button onclick="loadFood('${food.id}')" class="w-full py-3 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-emerald-600 hover:text-white dark:hover:bg-emerald-600 font-semibold text-xs text-slate-700 dark:text-slate-200 transition-all flex items-center justify-center gap-2">
+                            Ver Enciclopédia Completa
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </article>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        // BUSCA EM TEMPO REAL E AUTOCOMPLETE
+        function handleSearch(query) {
+            const dropdown = document.getElementById('search-results-dropdown');
+            const cleanQuery = query.trim().toLowerCase();
+
+            if (!cleanQuery) {
+                dropdown.classList.add('hidden');
+                renderFoodsGrid(FOODS_DATABASE);
+                return;
+            }
+
+            const matches = FOODS_DATABASE.filter(f => 
+                f.name.toLowerCase().includes(cleanQuery) ||
+                f.category.toLowerCase().includes(cleanQuery) ||
+                f.features.some(ft => ft.toLowerCase().includes(cleanQuery))
+            );
+
+            renderFoodsGrid(matches);
+
+            if (matches.length > 0) {
+                dropdown.innerHTML = matches.map(m => `
+                    <div onclick="loadFood('${m.id}')" class="p-3.5 hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer flex items-center justify-between border-b border-slate-100 dark:border-slate-800 last:border-0">
+                        <div class="flex items-center gap-3">
+                            <img src="${m.image}" class="w-10 h-10 rounded-lg object-cover">
+                            <div>
+                                <h4 class="text-xs font-bold text-slate-900 dark:text-white">${m.name}</h4>
+                                <span class="text-[10px] text-slate-400">${m.category} • ${m.nutrition.calories} kcal/100g</span>
+                            </div>
+                        </div>
+                        <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
+                    </div>
+                `).join('');
+                dropdown.classList.remove('hidden');
+                lucide.createIcons();
+            } else {
+                dropdown.innerHTML = `
+                    <div class="p-4 text-xs text-slate-400 text-center">Nenhum resultado encontrado para "${query}"</div>
+                `;
+                dropdown.classList.remove('hidden');
+            }
+        }
+
+        // FILTROS INTELIGENTES
+        function filterFoods(type) {
+            activeFilter = type;
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('bg-emerald-600', 'text-white');
+                btn.classList.add('bg-white', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-300');
+            });
+            event.target.classList.remove('bg-white', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-300');
+            event.target.classList.add('bg-emerald-600', 'text-white');
+
+            let filtered = [...FOODS_DATABASE];
+            if (type === 'high-protein') filtered.sort((a, b) => b.nutrition.proteins - a.nutrition.proteins);
+            if (type === 'high-fiber') filtered.sort((a, b) => b.nutrition.fiber - a.nutrition.fiber);
+            if (type === 'low-calorie') filtered.sort((a, b) => a.nutrition.calories - b.nutrition.calories);
+            if (type === 'satiety') filtered = filtered.filter(f => f.tags.includes('satiety'));
+
+            renderFoodsGrid(filtered);
+        }
+
+        function filterByCategory(slug) {
+            const matches = FOODS_DATABASE.filter(f => f.categorySlug === slug);
+            renderFoodsGrid(matches);
+            window.scrollTo({ top: document.getElementById('foods-grid').offsetTop - 100, behavior: 'smooth' });
+        }
+
+        function showHome() {
+            document.getElementById('view-home').classList.remove('hidden');
+            document.getElementById('view-food-detail').classList.add('hidden');
+            document.getElementById('search-results-dropdown').classList.add('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // CARREGAR PÁGINA INDIVIDUAL DO ALIMENTO
+        function loadFood(id) {
+            const food = FOODS_DATABASE.find(f => f.id === id);
+            if (!food) return;
+
+            document.getElementById('search-results-dropdown').classList.add('hidden');
+            document.getElementById('view-home').classList.add('hidden');
+            
+            const detailContainer = document.getElementById('view-food-detail');
+            detailContainer.classList.remove('hidden');
+
+            const cautionColor = food.caution.level === 'high' ? 'bg-red-500/10 text-red-600 border-red-200' : 
+                               (food.caution.level === 'moderate' ? 'bg-amber-500/10 text-amber-600 border-amber-200' : 'bg-emerald-500/10 text-emerald-600 border-emerald-200');
+
+            detailContainer.innerHTML = `
+                <!-- BREADCRUMB / NAV -->
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-4">
+                    <button onclick="showHome()" class="inline-flex items-center gap-2 text-xs font-semibold text-slate-500 hover:text-emerald-600 transition-colors">
+                        <i data-lucide="arrow-left" class="w-4 h-4"></i> Voltar para a pesquisa
+                    </button>
+                </div>
+
+                <!-- 1. VISÃO GERAL -->
+                <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                        <div class="lg:col-span-5">
+                            <div class="relative rounded-3xl overflow-hidden shadow-2xl border border-slate-200/80 dark:border-darkBorder">
+                                <img src="${food.image}" class="w-full h-80 lg:h-96 object-cover">
+                                <div class="absolute bottom-4 left-4 right-4 bg-slate-900/80 backdrop-blur-md p-4 rounded-2xl text-white">
+                                    <span class="text-[10px] font-bold text-emerald-400 uppercase tracking-widest">${food.category}</span>
+                                    <h1 class="text-2xl font-extrabold">${food.name}</h1>
+                                    <p class="text-xs text-slate-300 italic">${food.scientificName} • Origem: ${food.origin}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="lg:col-span-7 space-y-6">
+                            <div>
+                                <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">Visão Geral</h2>
+                                <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-normal">${food.summary}</p>
+                            </div>
+
+                            <div class="flex flex-wrap gap-2">
+                                ${food.features.map(f => `
+                                    <span class="px-3 py-1.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 text-xs font-semibold flex items-center gap-1.5">
+                                        <i data-lucide="check" class="w-3.5 h-3.5"></i> ${f}
+                                    </span>
+                                `).join('')}
+                            </div>
+
+                            <!-- CARD ATENÇÃO DE RISCO -->
+                            <div class="p-4 rounded-2xl border ${cautionColor} flex items-start gap-3">
+                                <i data-lucide="shield-alert" class="w-5 h-5 shrink-0 mt-0.5"></i>
+                                <div>
+                                    <h4 class="text-xs font-bold uppercase tracking-wider mb-1">Nível de Atenção: ${food.caution.level.toUpperCase()} — ${food.caution.title}</h4>
+                                    <p class="text-xs opacity-90 leading-relaxed">${food.caution.details}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 2. INFORMAÇÃO NUTRICIONAL & GRÁFICOS -->
+                <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                    <div class="bg-white dark:bg-darkCard border border-slate-200/80 dark:border-darkBorder rounded-3xl p-6 sm:p-8">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+                            <div>
+                                <h2 class="text-xl font-bold text-slate-900 dark:text-white">Tabela Nutricional Completa</h2>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">Valores de referência calculados por porção de 100g de alimento comestível</p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                            <!-- Gráfico de Rosca (Macronutrientes) -->
+                            <div class="lg:col-span-5 flex flex-col items-center justify-center p-4 bg-slate-50 dark:bg-slate-800/40 rounded-2xl">
+                                <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4">Distribuição de Macronutrientes (g)</h3>
+                                <div class="w-48 h-48 relative">
+                                    <canvas id="macroChart"></canvas>
+                                </div>
+                            </div>
+
+                            <!-- Lista Detalhada Micronutrientes/Barra -->
+                            <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800">
+                                    <span class="text-xs text-slate-400 font-medium">Calorias (Energia)</span>
+                                    <div class="text-2xl font-black text-slate-900 dark:text-white mt-1">${food.nutrition.calories} <span class="text-xs font-normal text-slate-400">kcal</span></div>
+                                </div>
+
+                                <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800">
+                                    <span class="text-xs text-slate-400 font-medium">Proteínas</span>
+                                    <div class="text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-1">${food.nutrition.proteins} <span class="text-xs font-normal text-slate-400">g</span></div>
+                                </div>
+
+                                <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800">
+                                    <span class="text-xs text-slate-400 font-medium">Carboidratos Totais</span>
+                                    <div class="text-2xl font-black text-slate-900 dark:text-white mt-1">${food.nutrition.carbs} <span class="text-xs font-normal text-slate-400">g</span></div>
+                                    <span class="text-[10px] text-slate-400">Açúcares: ${food.nutrition.totalSugars}g</span>
+                                </div>
+
+                                <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800">
+                                    <span class="text-xs text-slate-400 font-medium">Fibras Alimentares</span>
+                                    <div class="text-2xl font-black text-teal-600 dark:text-teal-400 mt-1">${food.nutrition.fiber} <span class="text-xs font-normal text-slate-400">g</span></div>
+                                </div>
+
+                                <!-- Micronutrientes Relevantes -->
+                                <div class="sm:col-span-2 p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800">
+                                    <h4 class="text-xs font-bold text-slate-700 dark:text-slate-300 mb-3">Vitaminas & Minerais Destacados</h4>
+                                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs">
+                                        ${food.nutrition.vitamins.map(v => `
+                                            <div class="bg-white dark:bg-darkCard p-2.5 rounded-xl border border-slate-200/60 dark:border-darkBorder">
+                                                <span class="block text-slate-400 text-[10px]">${v.name}</span>
+                                                <span class="font-bold text-slate-800 dark:text-slate-200">${v.amount}</span>
+                                                <span class="text-[10px] text-emerald-600 font-semibold block">(${v.dv} VD*)</span>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 3 & 4. BENEFÍCIOS SAÚDE & METABOLISMO -->
+                <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Benefícios sistêmicos -->
+                        <div class="bg-white dark:bg-darkCard border border-slate-200/80 dark:border-darkBorder rounded-3xl p-6 sm:p-8">
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                                <i data-lucide="heart-pulse" class="w-5 h-5 text-emerald-500"></i> Benefícios para a Saúde
+                            </h3>
+                            <div class="space-y-4">
+                                ${food.healthBenefits.map(b => `
+                                    <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800">
+                                        <h4 class="text-xs font-bold text-slate-800 dark:text-slate-200 mb-1">${b.title}</h4>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">${b.text}</p>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <!-- Emagrecimento e Metabolismo -->
+                        <div class="bg-white dark:bg-darkCard border border-slate-200/80 dark:border-darkBorder rounded-3xl p-6 sm:p-8">
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                                <i data-lucide="scale" class="w-5 h-5 text-teal-500"></i> Emagrecimento & Metabolismo
+                            </h3>
+                            
+                            <div class="grid grid-cols-2 gap-3 mb-4">
+                                <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/40 text-center">
+                                    <span class="block text-[10px] text-slate-400">É muito calórico?</span>
+                                    <span class="text-xs font-bold ${food.weightLossInfo.highCalorie ? 'text-amber-500' : 'text-emerald-500'}">${food.weightLossInfo.highCalorie ? 'Sim (Atenção às porções)' : 'Não (Baixa densidade)'}</span>
+                                </div>
+                                <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/40 text-center">
+                                    <span class="block text-[10px] text-slate-400">Ajuda na saciedade?</span>
+                                    <span class="text-xs font-bold text-emerald-500">${food.weightLossInfo.helpsSatiety ? 'Sim (Alta Saciedade)' : 'Moderada'}</span>
+                                </div>
+                            </div>
+
+                            <div class="p-4 rounded-2xl bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-100 dark:border-emerald-900/40">
+                                <h4 class="text-xs font-bold text-emerald-700 dark:text-emerald-300 mb-1 flex items-center gap-1.5">
+                                    <i data-lucide="flask-conical" class="w-4 h-4"></i> Fato Científico vs Mito do Metabolismo
+                                </h4>
+                                <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">${food.weightLossInfo.mythVsFact}</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 5 & 6. QUEM PODE CONSUMIR & SEGURANÇA ALIMENTAR -->
+                <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Quem pode consumir -->
+                        <div class="bg-white dark:bg-darkCard border border-slate-200/80 dark:border-darkBorder rounded-3xl p-6 sm:p-8">
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                                <i data-lucide="users" class="w-5 h-5 text-emerald-500"></i> Orientação de Consumo
+                            </h3>
+                            <ul class="space-y-3 text-xs text-slate-600 dark:text-slate-300">
+                                <li class="flex items-start gap-2">
+                                    <i data-lucide="check-circle" class="w-4 h-4 text-emerald-500 shrink-0 mt-0.5"></i>
+                                    <span><strong>Geral:</strong> ${food.whoCanConsume.general}</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i data-lucide="check-circle" class="w-4 h-4 text-emerald-500 shrink-0 mt-0.5"></i>
+                                    <span><strong>Diabéticos / Resistência Insulínica:</strong> ${food.whoCanConsume.diabetics}</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-500 shrink-0 mt-0.5"></i>
+                                    <span><strong>Alergias / Sensibilidades:</strong> ${food.whoCanConsume.allergies}</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Segurança Alimentar & Conservação -->
+                        <div class="bg-white dark:bg-darkCard border border-slate-200/80 dark:border-darkBorder rounded-3xl p-6 sm:p-8">
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                                <i data-lucide="shield-check" class="w-5 h-5 text-emerald-500"></i> Segurança Alimentar & Frescor
+                            </h3>
+                            <div class="space-y-3 text-xs">
+                                <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/40">
+                                    <span class="font-bold text-emerald-600 block mb-0.5">✔ Como identificar fresco:</span>
+                                    <span class="text-slate-600 dark:text-slate-400">${food.foodSafety.freshStatus}</span>
+                                </div>
+                                <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/40">
+                                    <span class="font-bold text-red-500 block mb-0.5">✖ Sinais de deterioração (Descarte):</span>
+                                    <span class="text-slate-600 dark:text-slate-400">${food.foodSafety.spoiledStatus}</span>
+                                </div>
+                                <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/40">
+                                    <span class="font-bold text-slate-700 dark:text-slate-300 block mb-0.5">📦 Armazenamento Ideal:</span>
+                                    <span class="text-slate-600 dark:text-slate-400">${food.foodSafety.storage}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 8. PROCESSO DE PRODUÇÃO / TIMELINE -->
+                <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                    <div class="bg-white dark:bg-darkCard border border-slate-200/80 dark:border-darkBorder rounded-3xl p-6 sm:p-8">
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
+                            <i data-lucide="truck" class="w-5 h-5 text-emerald-500"></i> Ciclo de Produção & Cadeia de Suprimentos
+                        </h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 relative">
+                            ${food.productionTimeline.map((step, idx) => `
+                                <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800 relative">
+                                    <span class="w-6 h-6 rounded-full bg-emerald-600 text-white text-xs font-bold flex items-center justify-center mb-3">${idx + 1}</span>
+                                    <h4 class="text-xs font-bold text-slate-900 dark:text-white mb-1">${step.step}</h4>
+                                    <p class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">${step.desc}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 10 & 11. FORMAS DE PREPARO & MITOS E VERDADES -->
+                <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Comparação de Preparos -->
+                        <div class="bg-white dark:bg-darkCard border border-slate-200/80 dark:border-darkBorder rounded-3xl p-6 sm:p-8">
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                                <i data-lucide="chef-hat" class="w-5 h-5 text-emerald-500"></i> Impacto das Formas de Preparo
+                            </h3>
+                            <div class="space-y-3">
+                                ${food.cookingComparison.map(prep => `
+                                    <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800">
+                                        <h4 class="text-xs font-bold text-slate-800 dark:text-slate-200 mb-0.5">${prep.mode}</h4>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400">${prep.note}</p>
+                                    </div>
+                                me`).join('')}
+                            </div>
+                        </div>
+
+                        <!-- Mitos e Verdades -->
+                        <div class="bg-white dark:bg-darkCard border border-slate-200/80 dark:border-darkBorder rounded-3xl p-6 sm:p-8">
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                                <i data-lucide="help-circle" class="w-5 h-5 text-teal-500"></i> Mitos vs Verdades Científicas
+                            </h3>
+                            <div class="space-y-3">
+                                ${food.myths.map(m => `
+                                    <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800">
+                                        <div class="flex items-center justify-between mb-1">
+                                            <span class="text-xs font-bold text-slate-800 dark:text-slate-200">${m.statement}</span>
+                                            <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-md ${m.verdict === 'VERDADE' ? 'bg-emerald-500/10 text-emerald-600' : 'bg-red-500/10 text-red-600'}">${m.verdict}</span>
+                                        </div>
+                                        <p class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">${m.explanation}</p>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            `;
+
+            lucide.createIcons();
+            initChart(food);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // RENDERIZAÇÃO DO GRÁFICO CHART.JS
+        function initChart(food) {
+            const ctx = document.getElementById('macroChart');
+            if (!ctx) return;
+
+            if (currentChartInstance) {
+                currentChartInstance.destroy();
+            }
+
+            currentChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Carboidratos', 'Proteínas', 'Gorduras Totais'],
+                    datasets: [{
+                        data: [food.nutrition.carbs, food.nutrition.proteins, food.nutrition.fats],
+                        backgroundColor: ['#059669', '#10b981', '#f59e0b'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                font: { family: 'Plus Jakarta Sans', size: 10 },
+                                boxWidth: 12
+                            }
+                        }
+                    },
+                    cutout: '70%'
+                }
+            });
+        }
+    </script>
+</body>
+</html>
